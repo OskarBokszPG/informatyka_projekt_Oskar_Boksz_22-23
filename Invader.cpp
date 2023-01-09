@@ -3,7 +3,7 @@
 
 Invader::Invader(float x, float y, int numInv)
 {
-    speed = 5;
+    speed = -10;
     position.x = x;
     position.y = y;
     texture.loadFromFile("invader.png");
@@ -15,16 +15,20 @@ Invader::Invader(float x, float y, int numInv)
         invaders.push_back(sprite);
     }
 }
-void Invader::mov()   
+void Invader::mov(float xW)   
 {
     sf::Vector2f currPos = invaders[0].getPosition();
     sf::Time elapsedTime = clock.getElapsedTime();
 
+    if (invaders[0].getPosition().x <= 0 || invaders[invaders.size() - 1].getPosition().x + invaders[invaders.size() - 1].getGlobalBounds().width >= xW) {
+        speed = -speed;
+        currPos.y += 0.3f;
+
+    }
     if (elapsedTime.asSeconds() >= 1.0f) {
         currPos.x += speed;
         clock.restart();
     }
-
     for (auto& sprite : invaders)
     {
     sprite.setPosition(currPos);

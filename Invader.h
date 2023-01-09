@@ -9,10 +9,11 @@ class Invader : public sf::Sprite
 	sf::Vector2f position;
 	sf::Sprite sprite;
 	sf::Clock clock;
+
 public:
 	friend class Ball;
 	float speed;
 	Invader(float x, float y, int numInv);
-	void mov();
+	void mov(float xW);
 	void draw(sf::RenderWindow& window);
 };

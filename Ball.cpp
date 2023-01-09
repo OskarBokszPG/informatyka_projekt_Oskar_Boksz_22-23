@@ -13,14 +13,15 @@ Ball::Ball(float x, float y, float radius, float speedX, float speedY)
 	setFillColor(sf::Color::Cyan);
     setPosition(position);
     setOrigin(r, r);
+    playerLife = 3;
 }
-void Ball::bounce(float xW, Paddle pros, Invader block)
+
+void Ball::bounce(float xW, Paddle pros)
 {
-    position = getPosition();
-    if (position.x +r > xW || position.x -r < 0) {
+    if (getPosition().x + r > xW || getPosition().x - r < 0) {
         speed.x = -speed.x;
     }
-    if (position.y -r < 0) {
+    if (getPosition().y -r < 0) {
         speed.y = -speed.y;
     }
     //if (position.y + r > yW)
@@ -28,8 +29,10 @@ void Ball::bounce(float xW, Paddle pros, Invader block)
     if (getPosition().x + r > pros.getPosition().x - pros.getSize().x / 2.f &&
         getPosition().x - r < pros.getPosition().x + pros.getSize().x / 2.f &&
         getPosition().y + r > pros.getPosition().y - pros.getSize().y / 2.f &&
-        getPosition().y - r < pros.getPosition().y + pros.getSize().y / 2.f)
+        getPosition().y - r < pros.getPosition().y + pros.getSize().y / 2.f) {
         speed.y = -speed.y;
+
+    }
 }
 
 
@@ -44,12 +47,13 @@ void Ball::checkCollision(Invader& invader)
         sf::FloatRect invaderRect = invader.invaders[i].getGlobalBounds();
 
         if (getPosition().x + r > invaderRect.left
-            && getPosition().x + r < invaderRect.left + invaderRect.width
+            && getPosition().x + r < invaderRect.left + invaderRect.width +3
             && getPosition().y + r > invaderRect.top
             && getPosition().y - r < invaderRect.top + invaderRect.height)
         {
             speed.y = -speed.y;
             invader.invaders[i].setColor(sf::Color::Red);
+            invader.invaders.erase(invader.invaders.begin() + i);
         }
     }
 }
@@ -60,4 +64,14 @@ void Ball::draw(sf::RenderWindow& window)
 {
 
     window.draw(*this);
+}
+
+void Ball::lossLife(float yW)
+{
+    if(playerLife > 0)
+        if (getPosition().y + r > yW) {
+            playerLife--;
+            setPosition(position);
+            speed.y = -speed.y;
+        }
 }

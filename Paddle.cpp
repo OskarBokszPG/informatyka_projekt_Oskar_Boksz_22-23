@@ -3,16 +3,13 @@
 
 Paddle::Paddle(float x, float y, float width, float height)
 {
-    sf::Vector2f a;
     position.x = x;
     position.y = y;
     size.x = width;
     size.y = height;
     setPosition(position);
     setSize(size);
-    setFillColor(sf::Color::Black);
-    setOutlineColor(sf::Color::White);
-    setOutlineThickness(2.0f);
+    setFillColor(sf::Color::White);
     setOrigin(width / 2, height / 2);
 }
 
