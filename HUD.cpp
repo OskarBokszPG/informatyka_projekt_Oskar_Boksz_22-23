@@ -1,13 +1,26 @@
 #include "HUD.h"
 
-HUD::HUD()
+HUD::HUD(float x, float y, float t)
 {
-sf::RectangleShape line(sf::Vector2f(1400, 5));
-line.setOrigin(0, 1200);
-line.rotate(90);
+	timeLeft = sf::seconds(t);
+	font.loadFromFile("Working Together.ttf");
+	text.setCharacterSize(24);
+	text.setFont(font);
+	text.setFillColor(sf::Color::Red);
+	text.setPosition({ x,y });
 }
 
-void HUD::rysuj(sf::RenderWindow& window)
+void HUD::draw(sf::RenderWindow& window)
 {
-	//window.draw(*this);
+	window.draw(text);
+}
+void HUD::update() {
+	sf::Time elapsed = clock.getElapsedTime();
+	if (elapsed >= sf::seconds(1))
+	{
+		timeLeft -= elapsed;
+		clock.restart();
+	}
+	std::string timeString = std::to_string(timeLeft.asSeconds());
+	text.setString(timeString);
 }

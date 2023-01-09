@@ -2,8 +2,8 @@
 #include "Ball.h"
 #include "Paddle.h"
 #include "HUD.h"
+#include "Invader.h"
 #include "Game.h"
-#include <time.h>
 
 
 
@@ -11,11 +11,10 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1400, 800), "Arkanoid x SpaceInvaders");
 	window.setFramerateLimit(60);
-	Ball kulka(300.f, 500.f, 20.f, 4.f,5.f); //Ustawiam pozycjê pocz¹tkow¹,promieñ kulki oraz prêdkoœæ
+	Ball kulka(20.f, 700.f, 10.f, 0.5f, -5.f); //Ustawiam pozycjê pocz¹tkow¹,promieñ kulki oraz prêdkoœæ
 	Paddle paletka(400.f, 700.f, 200.f, 20.f); //Ustawiam pozycjê pocz¹tkow¹ oraz wymiary paletki
-	int r = 0;
-	int g = 0;
-	int b = 0;
+	Invader przeciwnik(20,10, 10);
+	HUD zegar(1250, 50, 120);		//Ustawiam wspó³rzêdne po³o¿enia zegara i czas jaki ma odliczaæ w sekundach
 
 	while (window.isOpen())
 	{
@@ -29,19 +28,21 @@ int main()
 				window.close();
 			}
 		}
-		window.clear(sf::Color(r,g,b));
-		//sf::RectangleShape line(sf::Vector2f(1400, 5));
-		//line.setOrigin(0, 1200);
-		//line.rotate(90);
-		//window.draw(line);
-		if (r != 255 || g != 255 || b != 255)
-			r++, b++;
-		paletka.movement(5.f, window.getSize().x); //Ustawiam prêdkoœæ i granicê ruchu prawostronnego
+		window.clear();
+		kulka.checkCollision(przeciwnik);
+		przeciwnik.mov();
+		zegar.update();
+		zegar.draw(window);
+		sf::RectangleShape line(sf::Vector2f(1400, 2));
+		line.setOrigin(0, 1200);
+		line.rotate(90);
+		window.draw(line);
+		paletka.movement(5.f, line.getOrigin().y - line.getSize().y); //Ustawiam prêdkoœæ i granicê ruchu prawostronnego paletki
 		paletka.draw(window);
 		kulka.draw(window);
-		kulka.kolizja(window.getSize().x, window.getSize().y); //Ustawiam prêdkoœæ kulki x i y oraz granice okienka
+		kulka.bounce(line.getOrigin().y, paletka, przeciwnik); //Ustawiam elementy od których pi³ka ma siê odbijaæ
 		kulka.movBall();
-		kulka.bounce(paletka);
+		przeciwnik.draw(window);
 		window.display();
 	}
 	return 0;

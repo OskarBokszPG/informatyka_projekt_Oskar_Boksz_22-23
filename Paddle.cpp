@@ -10,15 +10,14 @@ Paddle::Paddle(float x, float y, float width, float height)
     size.y = height;
     setPosition(position);
     setSize(size);
-    setFillColor(sf::Color::White);
-    setOutlineColor(sf::Color::Black);
+    setFillColor(sf::Color::Black);
+    setOutlineColor(sf::Color::White);
     setOutlineThickness(2.0f);
     setOrigin(width / 2, height / 2);
 }
 
 void Paddle::movement(float speed, float xW)
 {
-    // Poruszanie paletk¹ za pomoc¹ strza³ek
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && getPosition().x - size.x/2 > 0)
     {
         move(-speed, 0);
