@@ -2,15 +2,20 @@
 #include <SFML/Graphics.hpp>
 #include "Paddle.h"
 #include "Invader.h"
-class Ball :public sf::CircleShape
+#include "HUD.h"
+class Ball :public sf::Sprite
 {
 	sf::Texture texture;
-	sf::Vector2f position;
-	sf::Vector2f speed;
-	int playerLife;
 	float r;
 public:
-	Ball(float x, float y, float radius, float speedX, float speedY);
+	sf::Vector2f position;
+	float xS;
+	float yS;
+	sf::Vector2f speed;
+	friend class HUD;
+	bool rusz = true;
+	int pkt = 0;
+	Ball(float x, float y);
 
 	void bounce(float xW, Paddle pros);
 
@@ -18,7 +23,7 @@ public:
 
 	void checkCollision(Invader& invader);
 
-	void lossLife(float yW);
+	void lossLife(float yW, HUD& k);
 
 	void draw(sf::RenderWindow& window);
 };

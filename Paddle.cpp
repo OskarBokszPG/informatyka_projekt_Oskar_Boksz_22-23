@@ -1,25 +1,28 @@
 #include "Paddle.h"
 #include <iostream>
 
-Paddle::Paddle(float x, float y, float width, float height)
+Paddle::Paddle(float x, float y)
 {
     position.x = x;
     position.y = y;
-    size.x = width;
-    size.y = height;
+    texture.loadFromFile("paddle.png");
+    if (!texture.loadFromFile("paddle.png"))
+    {
+        std::cout << "Blad w ladowaniu paddle";
+    };
+    setTexture(texture);
+    setColor(sf::Color::Magenta);
+    setOrigin(getGlobalBounds().width / 2, getGlobalBounds().height / 2);
     setPosition(position);
-    setSize(size);
-    setFillColor(sf::Color::White);
-    setOrigin(width / 2, height / 2);
 }
 
-void Paddle::movement(float speed, float xW)
+void Paddle::movement(float xW)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && getPosition().x - size.x/2 > 0)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && getPosition().x - (getGlobalBounds().width / 2) > 0 && rusz==true)
     {
         move(-speed, 0);
     }
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && getPosition().x + size.x /2 < xW)
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && getPosition().x + (getGlobalBounds().width /2) < xW && rusz == true)
     {
         move(speed, 0);
     }

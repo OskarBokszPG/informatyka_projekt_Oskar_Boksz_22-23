@@ -1,12 +1,16 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class Paddle : public sf::RectangleShape
+class Paddle : public sf::Sprite
 {
-    sf::Vector2f size;
-    sf::Vector2f position;
+
+    sf::Texture texture;
+    sf::Sprite sprite;
 public:
-    Paddle(float x, float y, float width, float height);
-    void movement(float speed, float xW);
+    sf::Vector2f position;
+    int speed;
+    bool rusz = true;
+    Paddle(float x, float y);
+    void movement(float xW);
     void draw(sf::RenderWindow& window);
 };

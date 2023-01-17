@@ -1,0 +1,4 @@
+Player 0 Time left: 1:13 Life: 3
+
+Player 1 Time left: 0:27Life: 3
+
